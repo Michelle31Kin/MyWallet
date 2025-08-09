@@ -8,6 +8,7 @@
 #include "wallet.h"
 #include "transaction.h"
 #include "filesystem"
+#include "glaze/glaze.hpp"
 
 using std::cout;
 using std::endl;

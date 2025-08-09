@@ -14,10 +14,7 @@ int main()
     smartview.set_title("My Wallet"); // Set the window title to "Hello World!"
 
     // Expose a synchronous native function "add_ten" using the default serializer
-    smartview.expose("add_ten", [](int i)
-                                {
-                                    return i + 10;
-                                });
+    smartview.expose("","");
 
     smartview.set_url("http://localhost:5173/"); // Navigate to google.com
     smartview.show();                        // Show the smartview
