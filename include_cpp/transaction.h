@@ -5,7 +5,7 @@
 struct transaction
 {
     int id;
-    int wallet_id;
+    std::string wallet_name;
     std::string type;
     std::string recorded_at;
     std::string updated_at;

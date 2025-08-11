@@ -4,7 +4,6 @@
 
 struct wallet
 {
-    int id;
     std::string name;
     std::string currency;
     std::string source;

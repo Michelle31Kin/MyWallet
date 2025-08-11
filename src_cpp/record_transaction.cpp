@@ -5,8 +5,8 @@ std::string WalletManager::record_transaction(std::string &to_record)
     sqlite3 *db = WalletManager::init_db();
     transaction to_insert{};
     sqlite3_stmt *stmt;
-    char *createSQL = "INSERT INTO transactions "
-                    "(wallet_id, type, recorded_at"
+    const char *createSQL = "INSERT INTO transactions "
+                    "(wallet_name, type, recorded_at"
                     "updated_at, category, description"
                     "amount, related_wallet_id) "
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
@@ -18,7 +18,7 @@ std::string WalletManager::record_transaction(std::string &to_record)
         WalletManager::closedb(db);
         return "Failed to record transaction!!";
     }
-    sqlite3_bind_int(stmt, 1, to_insert.wallet_id);
+    sqlite3_bind_text(stmt, 1, to_insert.wallet_name.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 2, to_insert.type.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 3, to_insert.recorded_at.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 4, to_insert.updated_at.c_str(), -1, SQLITE_STATIC);
