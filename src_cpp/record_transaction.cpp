@@ -1,4 +1,4 @@
-#include "include_cpp/my.h"
+#include "../include_cpp/my.h"
 
 std::string WalletManager::record_transaction(std::string &to_record)
 {

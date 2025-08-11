@@ -1,4 +1,4 @@
-#include "include_cpp/my.h"
+#include "../include_cpp/my.h"
 
 static const char *walletsSQL = "CREATE TABLE IF NOT EXISTS wallets ("
                                       "name TEXT PRIMARY KEY,"   

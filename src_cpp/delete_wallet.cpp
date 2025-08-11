@@ -1,4 +1,4 @@
-#include "include_cpp/my.h"
+#include "../include_cpp/my.h"
 
 std::string WalletManager::delete_wallet(std::string &to_delete)
 {

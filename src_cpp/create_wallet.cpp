@@ -1,4 +1,4 @@
-#include "include_cpp/my.h"
+#include "../include_cpp/my.h"
 
 std::string WalletManager::create_wallet(std::string &to_create)
 {
