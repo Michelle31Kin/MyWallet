@@ -17,6 +17,7 @@ class WalletManager {
         static std::string delete_record(std::string &to_delete);
         static std::string delete_wallet(std::string &to_delete);
     private:
+        static void prepareStmt(sqlite3 *db, const char *Query, sqlite3_stmt *stmt);
         static sqlite3 *init_db(void);
         static void closedb(sqlite3 *db);
         static void init_tables(sqlite3 *db);
