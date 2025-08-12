@@ -10,6 +10,7 @@ std::string WalletManager::delete_wallet(std::string &to_delete)
     const char *deleteWSQL2 = "UPDATE transactions SET is_archived = TRUE WHERE wallet_name = ?;";
 
     glz::read_json(toDelete, to_delete);
+    sqlite3_exec(db, "BEGIN;", nullptr, nullptr, nullptr); // <--- START TRANSACTION
     if (sqlite3_prepare_v2(db, deleteWSQL1, -1, &stmt1, nullptr) != SQLITE_OK) {
         std::cerr << "SQL prepare error: " << sqlite3_errmsg(db) << endl;
         WalletManager::closedb(db);
@@ -35,7 +36,7 @@ std::string WalletManager::delete_wallet(std::string &to_delete)
         WalletManager::closedb(db);
         return "Failed to delete successfully!!";
     }
-    
+    sqlite3_exec(db, "COMMIT;", nullptr, nullptr, nullptr); // <--- CLOSE TRANSACTION
     sqlite3_finalize(stmt1);
     sqlite3_finalize(stmt2);
     WalletManager::closedb(db);
