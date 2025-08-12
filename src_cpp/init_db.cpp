@@ -54,7 +54,7 @@ sqlite3 *WalletManager::init_db(void)
         throw std::runtime_error("Failed to open the database");
     }
 
-    WalletManager::init_tables(db);    
+    WalletManager::init_tables(db);
     return db;
 }
 

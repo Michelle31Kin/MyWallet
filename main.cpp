@@ -1,6 +1,8 @@
 #include <saucer/smartview.hpp>
 #include "include_cpp/my.h"
 
+using std::string;
+
 int main()
 {
     auto app = saucer::application::init({      // Instantiate application
@@ -9,7 +11,7 @@ int main()
 
     saucer::smartview smartview{{        // Instantiate smartview
         .application = app,
-    }};
+    }};  
 
     smartview.set_title("My Wallet"); // Set the window title to "Hello World!"
 

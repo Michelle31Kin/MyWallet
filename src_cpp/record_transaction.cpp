@@ -6,8 +6,8 @@ std::string WalletManager::record_transaction(std::string &to_record)
     transaction to_insert{};
     sqlite3_stmt *stmt;
     const char *createSQL = "INSERT INTO transactions "
-                    "(wallet_name, type, recorded_at"
-                    "updated_at, category, description"
+                    "(wallet_name, type, recorded_at, "
+                    "updated_at, category, description, "
                     "amount, related_wallet_id) "
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
     ;
