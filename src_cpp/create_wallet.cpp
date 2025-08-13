@@ -5,7 +5,7 @@ std::string WalletManager::create_wallet(std::string &to_create)
     sqlite3 *db = WalletManager::init_db();
     wallet to_insert{};
     sqlite3_stmt *stmt;
-    char *createSQL = "INSERT INTO wallets "
+    const char *createSQL = "INSERT INTO wallets "
                     "(name, currency, source, "
                     "initial_amount, balance, color, "
                     "created_at, updated_at) "
