@@ -9,9 +9,9 @@ std::string WalletManager::update_record(std::string &to_update)
     std::string previous_type;
     const unsigned char* previous_wallet_name_from_SQL;
     std::string previous_wallet_name;
-    sqlite3_stmt *get_previous_amount_of_transaction_to_be_updated_Stmt;
-    sqlite3_stmt *get_previous_type_of_transaction_to_be_updated_Stmt;
-    sqlite3_stmt *get_previous_wallet_name_of_transaction_to_be_updated_Stmt;
+    sqlite3_stmt *get_previous_amount_of_transaction_to_be_updated_Stmt = nullptr;
+    sqlite3_stmt *get_previous_type_of_transaction_to_be_updated_Stmt = nullptr;
+    sqlite3_stmt *get_previous_wallet_name_of_transaction_to_be_updated_Stmt = nullptr;
     const char *get_previous_amount_of_transaction_to_be_updated_SQL = "SELECT amount FROM transactions WHERE id = ?;";
     const char *get_previous_type_of_transaction_to_be_updated_SQL = "SELECT type FROM transactions where id = ?;";
     const char *get_previous_wallet_name_of_transaction_to_be_updated_SQL = "SELECT wallet_name FROM transactions WHERE id = ?;";
