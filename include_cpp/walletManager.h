@@ -37,8 +37,6 @@ class WalletManager {
             static std::string _A_B_C(sqlite3 *db, transaction &toUpdate, std::string &previous_wallet_name, sqlite3_int64 previous_amount);
 
         /*|||||________________________________________________________[_____THE END_____]___________________________________________________|||||*/
-
-        static void prepareStmt(sqlite3 *db, const char *Query, sqlite3_stmt *stmt);
         static sqlite3 *init_db(void);
         static void closedb(sqlite3 *db);
         static void init_tables(sqlite3 *db);

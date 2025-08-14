@@ -1,29 +1,50 @@
 #include "../include_cpp/my.h"
 
 static const char *walletsSQL = "CREATE TABLE IF NOT EXISTS wallets ("
-                                      "name TEXT PRIMARY KEY,"   
-                                      "currency TEXT NOT NULL,"
+                                      "name TEXT PRIMARY KEY COLLATE NOCASE,"   
+                                      "currency TEXT NOT NULL COLLATE NOCASE,"
                                       "source TEXT NOT NULL,"
-                                      "initial_amount BIGINT,"
-                                      "balance BIGINT,"
+                                      "initial_amount BIGINT DEFAULT 0,"
+                                      "balance BIGINT DEFAULT 0,"
                                       "color TEXT,"
-                                      "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-                                      "updated_at TIMESTAMP, "
+                                      "created_at TEXT DEFAULT CURRENT_TIMESTAMP,"
+                                      "updated_at TEXT DEFAULT CURRENT_TIMESTAMP, "
                                       "is_active BIGINT DEFAULT TRUE);"
                                       ;
 static const char *transactionSQL = "CREATE TABLE IF NOT EXISTS transactions ("
                                           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                          "wallet_name TEXT NOT NULL,"
-                                          "type TEXT CHECK (type IN ('INCOME', 'EXPENSE', 'TRANSFER')) NOT NULL,"
-                                          "recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-                                          "updated_at TIMESTAMP,"
+                                          "wallet_name TEXT NOT NULL COLLATE NOCASE,"
+                                          "type TEXT COLLATE NOCASE CHECK (type IN ('INCOME', 'EXPENSE', 'TRANSFER')) NOT NULL,"
+                                          "recorded_at TEXT DEFAULT CURRENT_TIMESTAMP,"
+                                          "updated_at TEXT DEFAULT CURRENT_TIMESTAMP,"
                                           "category TEXT,"
                                           "description TEXT,"
-                                          "amount BIGINT, "
+                                          "amount BIGINT DEFAULT 0, "
                                           "is_archived BIGINT DEFAULT FALSE, "
-                                          "related_wallet_id BIGINT,"
-                                          "FOREIGN KEY (wallet_name) REFERENCES wallets(name));"
+                                          "related_wallet_name TEXT COLLATE NOCASE,"
+                                          "FOREIGN KEY (wallet_name) REFERENCES wallets(name) ON UPDATE CASCADE ON DELETE CASCADE, "
+                                          "FOREIGN KEY (related_wallet_name) REFERENCES wallets(name) ON UPDATE CASCADE ON DELETE CASCADE);"
                                     ;
+static const char *triggerUpdateAt_Wallet = "CREATE TRIGGER IF NOT EXISTS trigger_update_at_wallet "
+                                            "AFTER UPDATE ON wallets "
+                                                "FOR EACH ROW "
+                                                    "WHEN NEW.updated_at = OLD.updated_at "
+                                                        "BEGIN "
+                                                            "UPDATE wallets "
+                                                                "SET updated_at = CURRENT_TIMESTAMP "
+                                                                "WHERE name = OLD.name; "
+                                                        "END;"
+;
+static const char *triggerUpdateAt_Transactions = "CREATE TRIGGER IF NOT EXISTS trigger_update_at_transactions "
+                                            "AFTER UPDATE ON transactions "
+                                                "FOR EACH ROW "
+                                                    "WHEN NEW.updated_at = OLD.updated_at "
+                                                        "BEGIN "
+                                                            "UPDATE transactions "
+                                                                "SET updated_at = CURRENT_TIMESTAMP "
+                                                                "WHERE id = OLD.id; "
+                                                        "END;"
+;
 
 sqlite3 *WalletManager::init_db(void)
 {
@@ -53,8 +74,11 @@ sqlite3 *WalletManager::init_db(void)
         WalletManager::closedb(db);
         throw std::runtime_error("Failed to open the database");
     }
-
+    sqlite3_busy_timeout(db, 5000);
+    sqlite3_exec(db, "PRAGMA foreign_keys = ON;", nullptr, nullptr, nullptr);
     WalletManager::init_tables(db);
+    sqlite3_exec(db, triggerUpdateAt_Wallet, nullptr, nullptr, nullptr);
+    sqlite3_exec(db, triggerUpdateAt_Transactions, nullptr, nullptr, nullptr);
     return db;
 }
 
