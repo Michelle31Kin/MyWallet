@@ -5,7 +5,7 @@ std::string WalletManager::update_wallet(std::string &to_update)
     sqlite3 *db = WalletManager::init_db();
     wallet to_edit{};
     sqlite3_stmt *stmt;
-    char *updateSQL = "UPDATE INTO WALLETS"
+    const char *updateSQL = "UPDATE INTO WALLETS"
                     "(name, currency, source, initial_amount, "
                     "balance ,color)"
                     "VALUES(?, ?, ?, ?, ?, ?);"
