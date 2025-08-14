@@ -36,9 +36,9 @@ static const char *triggerUpdateAt_Wallet = "CREATE TRIGGER IF NOT EXISTS trigge
                                                         "END;"
 ;
 static const char *triggerUpdateAt_Transactions = "CREATE TRIGGER IF NOT EXISTS trigger_update_at_transactions "
-                                            "AFTER UPDATE ON transactions "
-                                                "FOR EACH ROW "
-                                                    "WHEN NEW.updated_at = OLD.updated_at "
+                                                "AFTER UPDATE ON transactions "
+                                                    "FOR EACH ROW "
+                                                     "WHEN NEW.updated_at = OLD.updated_at "
                                                         "BEGIN "
                                                             "UPDATE transactions "
                                                                 "SET updated_at = CURRENT_TIMESTAMP "

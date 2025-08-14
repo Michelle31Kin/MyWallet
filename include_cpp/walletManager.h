@@ -18,6 +18,7 @@ class WalletManager {
         static std::string get_records(std::optional<std::string> &criteria);
         static std::string delete_record(std::string &to_delete);
         static std::string delete_wallet(std::string &to_delete);
+        static std::string delete_wallet_permanently(std::string &to_delete);
     private:
         /*|||||_______________________________________________________[___UPDATE RECORD___]__________________________________________________|||||*/
         
