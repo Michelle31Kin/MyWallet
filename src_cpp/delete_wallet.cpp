@@ -1,6 +1,6 @@
 #include "../include_cpp/my.h"
 
-std::string WalletManager::delete_wallet(std::string &to_delete)
+std::string WalletManager::delete_wallet(const std::string &to_delete)
 {
     sqlite3 *db = WalletManager::init_db();
     wallet toDelete{};

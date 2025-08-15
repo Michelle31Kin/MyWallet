@@ -1,6 +1,6 @@
 #include "../include_cpp/my.h"
 
-std::string WalletManager::create_wallet(std::string &to_create)
+std::string WalletManager::create_wallet(const std::string &to_create)
 {
     sqlite3 *db = WalletManager::init_db();
     wallet to_insert{};

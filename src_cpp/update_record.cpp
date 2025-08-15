@@ -1,14 +1,14 @@
 #include "../include_cpp/my.h"
 
-std::string WalletManager::update_record(std::string &to_update)
+std::string WalletManager::update_record(const std::string &to_update)
 {
     sqlite3 *db = WalletManager::init_db();
     transaction toUpdate{};
-    sqlite3_int64 previous_amount;
+    sqlite3_int64 previous_amount = 0;
     const unsigned char* previous_type_from_SQL;
-    std::string previous_type;
+    std::string previous_type = "";
     const unsigned char* previous_wallet_name_from_SQL;
-    std::string previous_wallet_name;
+    std::string previous_wallet_name = "";
     sqlite3_stmt *get_previous_amount_of_transaction_to_be_updated_Stmt = nullptr;
     sqlite3_stmt *get_previous_type_of_transaction_to_be_updated_Stmt = nullptr;
     sqlite3_stmt *get_previous_wallet_name_of_transaction_to_be_updated_Stmt = nullptr;
@@ -39,7 +39,7 @@ std::string WalletManager::update_record(std::string &to_update)
     sqlite3_bind_int(get_previous_type_of_transaction_to_be_updated_Stmt, 1, toUpdate.id);
     sqlite3_bind_int(get_previous_wallet_name_of_transaction_to_be_updated_Stmt, 1, toUpdate.id);
     if (sqlite3_step(get_previous_amount_of_transaction_to_be_updated_Stmt) == SQLITE_ROW) {
-        sqlite3_int64 amount = sqlite3_column_int64(get_previous_amount_of_transaction_to_be_updated_Stmt, 0);
+        previous_amount = sqlite3_column_int64(get_previous_amount_of_transaction_to_be_updated_Stmt, 0);
     } else {
         std::cerr << "No transaction found with that ID.\n";
         goto cleanup;

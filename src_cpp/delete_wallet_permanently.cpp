@@ -1,11 +1,11 @@
 #include "../include_cpp/my.h"
 
-std::string WalletManager::delete_wallet_permanently(std::string &to_delete)
+std::string WalletManager::delete_wallet_permanently(const std::string &to_delete)
 {
     sqlite3 *db = WalletManager::init_db();
     wallet toDelete{};
     sqlite3_stmt *deleteWalletStmt = nullptr;
-    const char *deleteWalletSQL = "UPDATE wallets SET is_active = FALSE WHERE name = ?;";
+    const char *deleteWalletSQL = "DELETE FROM wallets WHERE name = ?;";
     std::string result = "Failed to delete record!!";
 
     glz::read_json(toDelete, to_delete);

@@ -8,17 +8,17 @@ class WalletManager {
     WalletManager();
 
     public:
-        static std::string record_transaction(std::string &to_record);
-        static std::string record_transfer(std::string &to_record);
-        static std::string create_wallet(std::string &to_create);
-        static std::string update_record(std::string &to_update);
-        static std::string update_transfer(std::string &to_update);
-        static std::string update_wallet(std::string &to_update);
-        static std::string get_wallets(std::optional<std::string> &criteria);
-        static std::string get_records(std::optional<std::string> &criteria);
-        static std::string delete_record(std::string &to_delete);
-        static std::string delete_wallet(std::string &to_delete);
-        static std::string delete_wallet_permanently(std::string &to_delete);
+        static std::string record_transaction       (const std::string &to_record);
+        static std::string record_transfer          (const std::string &to_record);
+        static std::string create_wallet            (const std::string &to_create);
+        static std::string update_record            (const std::string &to_update);
+        static std::string update_transfer          (const std::string &to_update);
+        static std::string update_wallet            (const std::string &to_update);
+        static std::string get_wallets              (const std::optional<std::string> &criteria);
+        static std::string get_records              (const std::optional<std::string> &criteria);
+        static std::string delete_record            (const std::string &to_delete);
+        static std::string delete_wallet            (const std::string &to_delete);
+        static std::string delete_wallet_permanently(const std::string &to_delete);
     private:
         /*|||||_______________________________________________________[___UPDATE RECORD___]__________________________________________________|||||*/
         

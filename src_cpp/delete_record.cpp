@@ -4,7 +4,7 @@
 /*|||||                                             [___TO DELETE INCOME AND EXPENSE RECORDS___]                                       |||||*/
     /*----------------------------------------------------------------------------------------------------------------------------------*/
 
-std::string WalletManager::delete_record(std::string &to_delete)
+std::string WalletManager::delete_record(const std::string &to_delete)
 {
     /*|||||_______________________________________________________[___VARIABLE DECLARATION___]__________________________________________________|||||*/
 
@@ -57,7 +57,7 @@ std::string WalletManager::delete_record(std::string &to_delete)
 
     /*|||||_________________________________________[___BINDING PARAMETERS TO THE STATEMENT OBJECTS___]_________________________________________|||||*/
 
-        sqlite3_bind_int(deleteStatementStmt = nullptr, 1, toDelete.id);
+        sqlite3_bind_int(deleteStatementStmt, 1, toDelete.id);
         sqlite3_bind_int64(walletBalanceUpdateStmt, 1, toDelete.amount);
         sqlite3_bind_text(walletBalanceUpdateStmt, 2, toDelete.wallet_name.c_str(), -1, SQLITE_STATIC);
 
@@ -66,7 +66,7 @@ std::string WalletManager::delete_record(std::string &to_delete)
 
     /*|||||______________________________________________________[___EXECUTING STATEMENTS___]__________________________________________________|||||*/
 
-        if (sqlite3_step(deleteStatementStmt = nullptr) != SQLITE_DONE) {
+        if (sqlite3_step(deleteStatementStmt) != SQLITE_DONE) {
             std::cerr << "SQL step failed: " << sqlite3_errmsg(db) << "!!" << endl;
             sqlite3_exec(db, "ROLLBACK;", nullptr, nullptr, nullptr); // <--- ROLLING BACK STATEMENT
             goto cleanup;

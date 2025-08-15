@@ -1,6 +1,7 @@
 #pragma once
 
 #include "my.h"
+#include <glaze/glaze.hpp>
 
 struct transaction
 {

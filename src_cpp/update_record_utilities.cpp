@@ -101,7 +101,7 @@ std::string WalletManager::A_BC(sqlite3 *db, transaction &toUpdate, sqlite3_int6
     sqlite3_stmt *updateWalletBalanceStmt = nullptr;
     const char *updateRecordSQL = "UPDATE transactions SET "
                                 "category = ?, "
-                                "description = ? WHERE id = ?;"
+                                "description = ?, amount = ? WHERE id = ?;"
     ;
     //
     const char *adjustWalletBalanceIncomeSQL =  "UPDATE wallets SET balance = balance - ? + ? WHERE name = ?;";
@@ -135,7 +135,8 @@ std::string WalletManager::A_BC(sqlite3 *db, transaction &toUpdate, sqlite3_int6
     //
     sqlite3_bind_text(updateRecordStmt,  1, toUpdate.category.c_str(),    -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(updateRecordStmt,  2, toUpdate.description.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int64(updateRecordStmt, 3, toUpdate.id);
+    sqlite3_bind_int64(updateRecordStmt, 3, toUpdate.amount);
+    sqlite3_bind_int64(updateRecordStmt, 4, toUpdate.id);
     //
     sqlite3_bind_int64(updateWalletBalanceStmt, 1, previous_amount);
     sqlite3_bind_int64(updateWalletBalanceStmt, 2, toUpdate.amount);
@@ -169,7 +170,7 @@ std::string WalletManager::A_B_C(sqlite3 *db, transaction &toUpdate, sqlite3_int
     sqlite3_stmt *updateWalletBalanceStmt = nullptr;
     const char *updateRecordSQL = "UPDATE transactions SET "
                                 "type = ?, category = ?, "
-                                "description = ? WHERE id = ?;"
+                                "description = ?, amount = ? WHERE id = ?;"
     ;
     //
     const char *adjustWalletBalance_to_IncomeSQL =  "UPDATE wallets SET balance = balance + ? + ? WHERE name = ?;";
@@ -204,7 +205,8 @@ std::string WalletManager::A_B_C(sqlite3 *db, transaction &toUpdate, sqlite3_int
     sqlite3_bind_text(updateRecordStmt,  1, toUpdate.type.c_str(),    -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(updateRecordStmt,  2, toUpdate.category.c_str(),    -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(updateRecordStmt,  3, toUpdate.description.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int64(updateRecordStmt, 4, toUpdate.id);
+    sqlite3_bind_int64(updateRecordStmt, 4, toUpdate.amount);
+    sqlite3_bind_int64(updateRecordStmt, 5, toUpdate.id);
     //
     sqlite3_bind_int64(updateWalletBalanceStmt, 1, previous_amount);
     sqlite3_bind_int64(updateWalletBalanceStmt, 2, toUpdate.amount);
@@ -421,7 +423,7 @@ std::string WalletManager::_A_BC(sqlite3 *db, transaction &toUpdate, std::string
     sqlite3_stmt *updateNewWalletBalanceStmt = nullptr;
     const char *updateRecordSQL = "UPDATE transactions SET "
                                 "category = ?, "
-                                "description = ? WHERE id = ?;"
+                                "description = ?, amount = ? WHERE id = ?;"
     ;
     //
     const char *adjustOldWalletBalanceIncomeSQL =  "UPDATE wallets SET balance = balance - ? WHERE name = ?;";
@@ -468,7 +470,8 @@ std::string WalletManager::_A_BC(sqlite3 *db, transaction &toUpdate, std::string
     //
     sqlite3_bind_text(updateRecordStmt,  1, toUpdate.category.c_str(),    -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(updateRecordStmt,  2, toUpdate.description.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int64(updateRecordStmt, 3, toUpdate.id);
+    sqlite3_bind_int64(updateRecordStmt, 3, toUpdate.amount);
+    sqlite3_bind_int64(updateRecordStmt, 4, toUpdate.id);
     //
     sqlite3_bind_int64(updateOldWalletBalanceStmt, 1, previous_amount);
     sqlite3_bind_text(updateOldWalletBalanceStmt,  2, previous_wallet_name.c_str(), -1, SQLITE_TRANSIENT);
@@ -512,7 +515,7 @@ std::string WalletManager::_A_B_C(sqlite3 *db, transaction &toUpdate, std::strin
     sqlite3_stmt *updateNewWalletBalanceStmt = nullptr;
     const char *updateRecordSQL = "UPDATE transactions SET "
                                 "category = ?, "
-                                "description = ? WHERE id = ?;"
+                                "description = ?, amount = ? WHERE id = ?;"
     ;
     //
     const char *adjustOldWalletBalance_to_IncomeSQL =  "UPDATE wallets SET balance = balance + ? WHERE name = ?;";
@@ -559,7 +562,8 @@ std::string WalletManager::_A_B_C(sqlite3 *db, transaction &toUpdate, std::strin
     //
     sqlite3_bind_text(updateRecordStmt,  1, toUpdate.category.c_str(),    -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(updateRecordStmt,  2, toUpdate.description.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int64(updateRecordStmt, 3, toUpdate.id);
+    sqlite3_bind_int64(updateRecordStmt, 3, toUpdate.amount);
+    sqlite3_bind_int64(updateRecordStmt, 4, toUpdate.id);
     //
     sqlite3_bind_int64(updateOldWalletBalanceStmt, 1, previous_amount);
     sqlite3_bind_text(updateOldWalletBalanceStmt,  2, previous_wallet_name.c_str(), -1, SQLITE_TRANSIENT);

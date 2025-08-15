@@ -1,6 +1,6 @@
 #include "../include_cpp/my.h"
 
-std::string WalletManager::record_transaction(std::string &to_record)
+std::string WalletManager::record_transaction(const std::string &to_record)
 {
     sqlite3 *db = WalletManager::init_db();
     transaction to_insert{};
@@ -9,7 +9,7 @@ std::string WalletManager::record_transaction(std::string &to_record)
     const char *createSQL = "INSERT INTO transactions "
                     "(wallet_name, type, recorded_at, "
                     "updated_at, category, description, "
-                    "amount, related_wallet_id) "
+                    "amount, related_wallet_name) "
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
     ;
     const char *updateWalletSQL_income = "UPDATE wallets SET balance = balance + ?  WHERE name = ?;";
@@ -41,14 +41,14 @@ std::string WalletManager::record_transaction(std::string &to_record)
         }
     }
     
-    sqlite3_bind_text(insertTransactionStmt,  1, to_insert.wallet_name.c_str(),  -1, SQLITE_STATIC);
-    sqlite3_bind_text(insertTransactionStmt,  2, to_insert.type.c_str(),         -1, SQLITE_STATIC);
-    sqlite3_bind_text(insertTransactionStmt,  3, to_insert.recorded_at.c_str(),  -1, SQLITE_STATIC);
-    sqlite3_bind_text(insertTransactionStmt,  4, to_insert.updated_at.c_str(),   -1, SQLITE_STATIC);
-    sqlite3_bind_text(insertTransactionStmt,  5, to_insert.category.c_str(),     -1, SQLITE_STATIC);
-    sqlite3_bind_text(insertTransactionStmt,  6, to_insert.description.c_str(),  -1, SQLITE_STATIC);
-    sqlite3_bind_int64(insertTransactionStmt, 7, to_insert.amount);
-    sqlite3_bind_int(insertTransactionStmt,   8, to_insert.related_wallet_id);
+    sqlite3_bind_text(insertTransactionStmt,   1, to_insert.wallet_name.c_str(),         -1, SQLITE_STATIC);
+    sqlite3_bind_text(insertTransactionStmt,   2, to_insert.type.c_str(),                -1, SQLITE_STATIC);
+    sqlite3_bind_text(insertTransactionStmt,   3, to_insert.recorded_at.c_str(),         -1, SQLITE_STATIC);
+    sqlite3_bind_text(insertTransactionStmt,   4, to_insert.updated_at.c_str(),          -1, SQLITE_STATIC);
+    sqlite3_bind_text(insertTransactionStmt,   5, to_insert.category.c_str(),            -1, SQLITE_STATIC);
+    sqlite3_bind_text(insertTransactionStmt,   6, to_insert.description.c_str(),         -1, SQLITE_STATIC);
+    sqlite3_bind_int64(insertTransactionStmt,  7, to_insert.amount);
+    sqlite3_bind_text(insertTransactionStmt,   8, to_insert.related_wallet_name.c_str(), -1, SQLITE_TRANSIENT);
     //----------------------------------------------------------------------
     sqlite3_bind_int64(updateWalletStmt, 1, to_insert.amount);
     sqlite3_bind_text(updateWalletStmt,  2, to_insert.wallet_name.c_str(), -1, SQLITE_STATIC);

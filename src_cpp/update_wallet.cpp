@@ -1,14 +1,13 @@
 #include "../include_cpp/my.h"
 
-std::string WalletManager::update_wallet(std::string &to_update)
+std::string WalletManager::update_wallet(const std::string &to_update)
 {
     sqlite3 *db = WalletManager::init_db();
     wallet to_edit{};
     sqlite3_stmt *stmt;
-    const char *updateSQL = "UPDATE INTO WALLETS"
-                    "(name, currency, source, initial_amount, "
-                    "balance ,color)"
-                    "VALUES(?, ?, ?, ?, ?, ?);"
+    const char *updateSQL = "UPDATE wallets SET "
+                    "name = ?, currency = ?, source = ?, initial_amount = ?, "
+                    "balance = ? , color = ?;"
     ;
     std::string result = "Failed to update wallet!";
 
