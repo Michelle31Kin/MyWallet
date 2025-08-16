@@ -17,6 +17,7 @@ class WalletManager {
         static std::string get_wallets              (const std::optional<std::string> &criteria);
         static std::string get_records              (const std::optional<std::string> &criteria);
         static std::string delete_record            (const std::string &to_delete);
+        static std::string restore_wallet           (const std::string &tor_restore);
         static std::string delete_wallet            (const std::string &to_delete);
         static std::string delete_wallet_permanently(const std::string &to_delete);
     private:
@@ -39,6 +40,7 @@ class WalletManager {
 
         /*|||||________________________________________________________[_____THE END_____]___________________________________________________|||||*/
         static sqlite3 *init_db(void);
+        static std::string safe_column_text(sqlite3_stmt* stmt, int col);
         static void closedb(sqlite3 *db);
         static void init_tables(sqlite3 *db);
 };
