@@ -1,4 +1,4 @@
-#include "../include.cpp/my.h"
+#include "../include_cpp/my.h"
 
 std::string WalletManager::restore_wallet(const std::string &to_restore)
 {
