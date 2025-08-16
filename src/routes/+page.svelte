@@ -1,8 +1,5 @@
 <script lang="ts">
 	// MyWallet – Function Tester (Svelte 5 / runes)
-	// Transport "window" calls window.saucer.exposed.<fn>
-	// Transport "http" calls /api/<fn>
-	// Transport "auto" tries window first, then HTTP
 
 	type Kind = 'query' | 'mutation';
 
@@ -21,37 +18,30 @@
 		initial_amount: 0,
 		balance: 0,
 		color: "#7c3aed",
-		created_at: "2025-08-14 12:00:00",
-		updated_at: "2025-08-14 12:00:00"
 	};
 
 	const sampleTransaction = {
 		id: 1,
 		wallet_name: "Cash",
 		type: "INCOME", // INCOME | EXPENSE | TRANSFER
-		recorded_at: "2025-08-14 12:00:00",
-		updated_at: "2025-08-14 12:00:00",
 		category: "General",
 		description: "Test note",
 		amount: 100,
-		related_wallet_name: "Bank" // used for transfers
+		related_wallet_name: "Bank"
 	};
 
 	const operations: Operation[] = [
-		// Wallets
 		{ key: "create_wallet", label: "Create Wallet", kind: "mutation", help: "Insert into wallets table.", sample: { ...sampleWallet } },
-		{ key: "update_wallet", label: "Update Wallet", kind: "mutation", help: "Update wallet fields by name.", sample: { ...sampleWallet, color: "#2563eb" } },
+		{ key: "update_wallet", label: "Update Wallet", kind: "mutation", help: "Update wallet fields by rowid (id).", sample: { id: 1, ...sampleWallet, color: "#2563eb" } },
 		{ key: "delete_wallet", label: "Delete Wallet (soft)", kind: "mutation", help: "Mark wallet inactive and archive transactions.", sample: { name: "Cash" } },
 		{ key: "delete_wallet_permanently", label: "Delete Wallet (permanent)", kind: "mutation", help: "Permanently mark wallet inactive (same as soft in current code).", sample: { name: "Cash" } },
-		{ key: "get_wallets", label: "Get Wallets", kind: "query", help: "Return wallets list. Criteria currently ignored.", sample: {} },
+		{ key: "get_wallets", label: "Get Wallets", kind: "query", help: "Return wallets list. (Should SELECT rowid AS id)", sample: {} },
 
-		// Records
 		{ key: "record_transaction", label: "Record Transaction", kind: "mutation", help: "Insert a transaction and adjust wallet balance.", sample: { ...sampleTransaction, type: "INCOME", amount: 150 } },
 		{ key: "update_record", label: "Update Record", kind: "mutation", help: "Update transaction and adjust balances accordingly.", sample: { id: 1, wallet_name: "Cash", type: "EXPENSE", amount: 40, description: "Corrected", updated_at: "2025-08-14 12:05:00" } },
 		{ key: "delete_record", label: "Delete Record", kind: "mutation", help: "Delete transaction by id and reverse balance effect.", sample: { id: 1, wallet_name: "Cash", type: "INCOME", amount: 150 } },
 		{ key: "get_records", label: "Get Records", kind: "query", help: "Return all transactions as JSON array.", sample: {} },
 
-		// Transfers
 		{ key: "record_transfer", label: "Record Transfer", kind: "mutation", help: "Transfer amount between wallets.", sample: { ...sampleTransaction, type: "TRANSFER", wallet_name: "Cash", related_wallet_name: "Bank", amount: 50 } },
 		{ key: "update_transfer", label: "Update Transfer", kind: "mutation", help: "Update transfer record by id.", sample: { id: 1, type: "TRANSFER", wallet_name: "Cash", related_wallet_name: "Bank", amount: 60 } }
 	];
@@ -60,7 +50,6 @@
 	let results = $state<Record<string, { raw: string; parsed?: any; elapsed_ms: number }>>({});
 	let consoleLogs = $state<{ ts: string; action: string; input: any; output?: any; error?: string; elapsed_ms?: number }[]>([]);
 
-	// Prefill
 	for (const op of operations) inputs[op.key] = JSON.stringify(op.sample, null, 2);
 
 	let transport = $state<'auto' | 'window' | 'http'>('auto');
@@ -129,6 +118,21 @@
 		inputs[op.key] = JSON.stringify(op.sample, null, 2);
 		results[op.key] = undefined as any;
 	}
+
+	// Helper: prefill update_wallet from a wallet row (rowid as id)
+	function setUpdateWalletFromRow(row: any) {
+		const upd = {
+			id: row.id,
+			name: row.name,
+			currency: row.currency,
+			source: row.source,
+			initial_amount: row.initial_amount ?? 0,
+			balance: row.balance ?? 0,
+			color: row.color ?? "#7c3aed"
+		};
+		inputs["update_wallet"] = JSON.stringify(upd, null, 2);
+		log("SET update_wallet from row", upd);
+	}
 </script>
 
 <div class="min-h-screen bg-slate-950 text-slate-100">
@@ -170,6 +174,7 @@
 							<div class="p-4 space-y-3">
 								<p class="text-sm text-slate-300">{op.help}</p>
 								<textarea class="w-full h-40 rounded-xl bg-slate-950/70 outline-none p-3 text-slate-100 border border-slate-800 font-mono text-sm" bind:value={inputs[op.key]} spellcheck="false" />
+
 								{#if results[op.key]}
 									<div class="rounded-xl border border-slate-800 bg-slate-950/50">
 										<div class="p-3 border-b border-slate-800 flex items-center justify-between">
@@ -185,6 +190,24 @@
 												<div class="text-xs text-slate-400 mb-1">Raw</div>
 												<pre class="text-xs overflow-auto max-h-48 whitespace-pre-wrap">{results[op.key].raw}</pre>
 											</div>
+
+											{#if op.key === 'get_wallets' && Array.isArray(results[op.key].parsed)}
+												<!-- Quick-pick buttons: use onclick (no on:click) -->
+												<div class="pt-2 border-t border-slate-800">
+													<div class="text-xs text-slate-400 mb-2">Click a wallet to prefill <code>update_wallet</code>:</div>
+													<div class="flex flex-wrap gap-2">
+														{#each results[op.key].parsed as w}
+															<button
+																class="rounded bg-slate-800 px-2 py-1 text-xs hover:bg-slate-700"
+																onclick={() => setUpdateWalletFromRow(w)}
+																title="Use this wallet for update_wallet"
+															>
+																#{w.id} – {w.name}
+															</button>
+														{/each}
+													</div>
+												</div>
+											{/if}
 										</div>
 									</div>
 								{/if}

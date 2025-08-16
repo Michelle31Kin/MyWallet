@@ -5,6 +5,7 @@
 
 struct wallet
 {
+    int id;
     std::string name;
     std::string currency;
     std::string source;
@@ -18,6 +19,7 @@ struct wallet
 template <>
 struct glz::meta<wallet> {
     static constexpr auto value = glz::object(
+        "id",             &wallet::id,
         "name",           &wallet::name,
         "currency",       &wallet::currency,
         "source",         &wallet::source,
