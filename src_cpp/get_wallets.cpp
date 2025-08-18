@@ -15,7 +15,7 @@ std::string WalletManager::get_wallets(const std::optional<std::string> &criteri
 
 
     const char *fetchSQL = "SELECT rowid, name, currency, source, initial_amount, "
-                          "balance, color, created_at, updated_at FROM wallets";
+                          "balance, color, created_at, updated_at, is_active FROM wallets";
 
     if (sqlite3_prepare_v2(db, fetchSQL, -1, &stmt, nullptr) != SQLITE_OK) {
         std::cerr << "SQL prepare error: " << sqlite3_errmsg(db) << std::endl;
@@ -32,7 +32,7 @@ std::string WalletManager::get_wallets(const std::optional<std::string> &criteri
         pusher.color =          safe_column_text    (stmt, 6);
         pusher.created_at =     safe_column_text    (stmt, 7);
         pusher.updated_at =     safe_column_text    (stmt, 8);
-        
+        pusher.is_active =      sqlite3_column_int  (stmt, 9);
         walletList.push_back(pusher);
     }
 
