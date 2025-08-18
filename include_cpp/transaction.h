@@ -13,6 +13,7 @@ struct transaction
     std::string category;
     std::string description;
     size_t      amount;
+    bool is_archived;
     std::string related_wallet_name;
 };
 
@@ -27,6 +28,7 @@ struct glz::meta<transaction> {
         "category",            &transaction::category,
         "description",         &transaction::description,
         "amount",              &transaction::amount,
+        "is_archived",         &transaction::is_archived,
         "related_wallet_name", &transaction::related_wallet_name
     );
 };

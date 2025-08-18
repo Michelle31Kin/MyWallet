@@ -14,6 +14,7 @@ struct wallet
     std::string color;
     std::string created_at;
     std::string updated_at;
+    bool is_active;
 };
 
 template <>
@@ -27,6 +28,7 @@ struct glz::meta<wallet> {
         "balance",        &wallet::balance,
         "color",          &wallet::color,
         "created_at",     &wallet::created_at,
-        "updated_at",     &wallet::updated_at
+        "updated_at",     &wallet::updated_at,
+        "is_active",      &wallet::is_active
     );
 };
