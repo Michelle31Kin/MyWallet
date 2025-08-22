@@ -8,6 +8,7 @@ declare global {
 		update_record:             (to_update: string) => Promise<string>;
 		update_transfer:           (to_update: string) => Promise<string>;
 		update_wallet:             (to_update: string) => Promise<string>;
+		restore_wallet:			   (to_restore: string) => Promise<string>;
 		get_wallets:               (criteria: string)  => Promise<string>;
 		get_records:               (criteria: string)  => Promise<string>;
 		delete_record:             (to_delete: string) => Promise<string>;
