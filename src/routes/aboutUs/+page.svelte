@@ -1,3 +1,3 @@
 <main>
-    <p class = font-bold >This is the about us page</p>
+    <p class = "font-extrabold justify-center shadow-2xl text-7xl p-64">This is the about us page</p>
 </main>

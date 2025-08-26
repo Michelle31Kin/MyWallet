@@ -1,11 +1,3 @@
-<script>
-
-</script>
-
 <main>
-    <section class="mt-6">
-        <p class = "text-xl font-bold">
-            Hey Michelle this is a paragraph
-        </p>
-    </section>
+    <p class = "font-extrabold justify-center shadow-2xl text-7xl p-64">This is the overview page</p>
 </main>
