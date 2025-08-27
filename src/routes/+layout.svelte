@@ -32,11 +32,11 @@ This includes:
 </svelte:head>
 
 <main>
-	<div class="drawer">
+	<div class="drawer overflow-auto">
 		<input id="my-drawer" type="checkbox" class="drawer-toggle" onchange={onToggle}/>
 		<div class="drawer-content h-screen">
 			<!-- Page content here -->
-			<div class="navbar bg-base-100 shadow-md rounded-b-sm">
+			<div class="navbar bg-base-100 shadow-md fixed rounded-b-sm">
 				<div class="flex-1">
 					<div class="flex max-w-56">
 						<label for="my-drawer" class="btn transition-all duration-580 rounded-xl hover:bg-yellow-500 btn-ghost drawer-button">
@@ -63,7 +63,7 @@ This includes:
 				</div>
 			</div>
 
-			<div class="transition-all duration-400 p-2"
+			<div class="transition-all duration-400 p-2 overflow-auto mt-11"
 				class:ml-[320px]={!active}
   				class:ml-[5px]={active}
 			>
