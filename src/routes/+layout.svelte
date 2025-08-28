@@ -65,7 +65,7 @@ This includes:
 
 			<div class="transition-all duration-400 p-2 overflow-auto mt-11"
 				class:ml-[320px]={!active}
-  				class:ml-[5px]={active}
+  				class:ml-[0px]={active}
 			>
 				{@render children?.()}
 			</div>
