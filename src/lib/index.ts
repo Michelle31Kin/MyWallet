@@ -36,13 +36,127 @@ export type Transaction = {
     updated_at: string;
     is_archived: boolean;
 }
-
-export function create_wallet(to_create: Wallet) {
-    let result;
-    try {
-        result = window.saucer.exposed.create_wallet(JSON.stringify(to_create));
-    } catch (error) {
-        result = "Failed to create wallet!!";
+export async function refresh() {
+    return { wallets: await get_wallets(), records: await get_records() }
+}
+//1-Create wallet
+export async function create_wallet(to_create: Wallet) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_create);
+    if (await window.saucer.exposed.create_wallet(intermediate)) {
+		success_popup = "Wallet created successfully";
+	} else {
+		error_popup = "Failed to create wallet";
+	}
+    return {success_popup, error_popup};
+}
+//2-record transaction
+export async function record_transaction(to_record: Transaction) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_record);
+    if (await window.saucer.exposed.record_transaction(intermediate)) {
+        success_popup = "Transaction recorded successfully";
+	} else {
+		error_popup = "Failed to record transaction";
     }
-    setTimeout(() => result = "", 3000);
+    return {success_popup, error_popup};
+}
+//3-record transfer
+export async function record_transfer(to_record: Transaction) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_record);
+    if (await window.saucer.exposed.record_transfer(intermediate)) {
+        success_popup = "Transfer recorded successfully";
+	} else {
+		error_popup = "Failed to record transfer";
+    }
+    return {success_popup, error_popup};
+}
+//4-update transfer
+export async function update_transfer(to_update: Transaction) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_update);
+    if (await window.saucer.exposed.update_transfer(intermediate)) {
+        success_popup = "Transfer updated successfully";
+	} else {
+		error_popup = "Failed to update transfer";
+    }
+    return {success_popup, error_popup};
+}
+//5-update record
+export async function update_record(to_update: Transaction) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_update);
+    if (await window.saucer.exposed.update_record(intermediate)) {
+        success_popup = "Record updated successfully";
+	} else {
+		error_popup = "Failed to update record";
+    }
+    return {success_popup, error_popup};
+}
+//6-update wallet
+export async function update_wallet(to_update: Wallet) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_update);
+    if (await window.saucer.exposed.update_wallet(intermediate)) {
+        success_popup = "Wallet updated successfully";
+	} else {
+		error_popup = "Failed to update wallet";
+    }
+    return {success_popup, error_popup};
+}
+//7-restore wallet
+export async function restore_wallet(to_restore: Wallet) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_restore);
+    if (await window.saucer.exposed.restore_wallet(intermediate)) {
+        success_popup = "Wallet restored successfully";
+	} else {
+		error_popup = "Failed to restore wallet";
+    }
+    return {success_popup, error_popup};
+}
+//8-get wallets
+export async function get_wallets() {
+    let fetched_wallet: Wallet[] = JSON.parse(await window.saucer.exposed.get_wallets()) as Wallet[];
+    return fetched_wallet;
+}
+//9-get records
+export async function get_records() {
+    let error_popup: string = "";
+    let fetched_records: Transaction[] = JSON.parse(await window.saucer.exposed.get_records()) as Transaction[];
+    return fetched_records;
+}
+//10-trash wallet
+export async function trash_wallet(to_trash: Wallet) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_trash);
+    if (await window.saucer.exposed.delete_wallet(intermediate)) {
+        success_popup = "Wallet trashed successfully";
+	} else {
+		error_popup = "Failed to trash wallet";
+    }
+    return {success_popup, error_popup};
+}
+//11-delete wallet
+export async function delete_wallet(to_delete: Wallet) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_delete);
+    if (await window.saucer.exposed.delete_wallet_permanently(intermediate)) {
+        success_popup = "Wallet deleted successfully";
+	} else {
+		error_popup = "Failed to delete wallet";
+    }
+    return {success_popup, error_popup};
+}
+//12-delete record
+export async function delete_record(to_delete: Transaction) {
+    let success_popup: string = "", error_popup: string = "";
+    const intermediate = JSON.stringify(to_delete);
+    if (await window.saucer.exposed.delete_record(intermediate)) {
+        success_popup = "Record deleted successfully";
+	} else {
+		error_popup = "Failed to delete record";
+    }
+    return {success_popup, error_popup};
 }

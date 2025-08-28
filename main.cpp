@@ -18,6 +18,7 @@ int main()
     //Exposing functions to the frontend
     smartview.expose("record_transaction",        WalletManager::record_transaction       , saucer::launch::async);
     smartview.expose("record_transfer",           WalletManager::record_transfer          , saucer::launch::async);
+    smartview.expose("restore_wallet",            WalletManager::restore_wallet           , saucer::launch::async);
     smartview.expose("create_wallet",             WalletManager::create_wallet            , saucer::launch::async);
     smartview.expose("update_record",             WalletManager::update_record            , saucer::launch::async);
     smartview.expose("update_transfer",           WalletManager::update_transfer          , saucer::launch::async);
