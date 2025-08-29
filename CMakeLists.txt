@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 project(myWallet LANGUAGES CXX VERSION 1.0)
 
-# --------------------------------------------------------------------------------------------------------
-# Create executable
-# --------------------------------------------------------------------------------------------------------
 file(GLOB SOURCES "src_cpp/*.cpp")
 add_executable(${PROJECT_NAME} "main.cpp" ${SOURCES})
 
@@ -17,9 +14,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
-# --------------------------------------------------------------------------------------------------------
-# Link libraries (Saucer)
-# --------------------------------------------------------------------------------------------------------
 include(FetchContent)
 FetchContent_Declare(
     saucer 
@@ -28,9 +22,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(saucer)
 
-# --------------------------------------------------------------------------------------------------------
-# SQLite3
-# --------------------------------------------------------------------------------------------------------
+# -------------------- SQLite3 (Windows manual path) --------------------
 if (WIN32)
     set(SQLite3_INCLUDE_DIR "C:/sqlite3")
     set(SQLite3_LIBRARY "C:/sqlite3/sqlite3.lib")
@@ -44,11 +36,6 @@ else()
     find_package(SQLite3 REQUIRED)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE saucer::saucer SQLite::SQLite3)
-
-# --------------------------------------------------------------------------------------------------------
-# Compiler & Linker Flags
-# --------------------------------------------------------------------------------------------------------
 if (!MSVC)
     set(MY_PERFORMANCE_FLAGS
         -O3 -march=native -mtune=native
@@ -58,5 +45,6 @@ if (!MSVC)
         -Wall -Wextra
     )
     target_compile_options(${PROJECT_NAME} PRIVATE ${MY_PERFORMANCE_FLAGS})
-    target_link_options(${PROJECT_NAME} PRIVATE -flto -Wl,--gc-sections -pthread)
 endif()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE saucer::saucer SQLite::SQLite3)
