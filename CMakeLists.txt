@@ -49,16 +49,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE saucer::saucer SQLite::SQLite3)
 # --------------------------------------------------------------------------------------------------------
 # Compiler & Linker Flags
 # --------------------------------------------------------------------------------------------------------
-if (MSVC)
-    # MSVC (Windows)
-    target_compile_options(${PROJECT_NAME} PRIVATE
-        /O2 /GL /fp:fast /arch:AVX2 /Qpar
-        /Wall /WX
-    )
-    target_link_options(${PROJECT_NAME} PRIVATE /LTCG)
-
-else()
-    # GCC / Clang (Linux, macOS, MinGW)
+if (!MSVC)
     set(MY_PERFORMANCE_FLAGS
         -O3 -march=native -mtune=native
         -flto -ffast-math -funroll-loops
@@ -66,7 +57,6 @@ else()
         -fdata-sections -ffunction-sections
         -Wall -Wextra
     )
-
     target_compile_options(${PROJECT_NAME} PRIVATE ${MY_PERFORMANCE_FLAGS})
     target_link_options(${PROJECT_NAME} PRIVATE -flto -Wl,--gc-sections -pthread)
 endif()
