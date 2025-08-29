@@ -122,7 +122,7 @@
 </script>
 
 <main>
-	<p class="font-bold justify-center shadow-2xl text-7xl p-64">
+	<p class="font-bold justify-center border rounded-2xl mt-6 text-black text-7xl p-64">
 		This is the all wallets page
 	</p>
 	<div class="flex space-x-4">
