@@ -43,7 +43,7 @@
 					Meet Our Team Members.
 				</p>
 				<div
-					class="grid md:grid-cols-1 md:grid-rows-8 lg:grid-cols-1 lg:grid-rows-8 xl:grid-rows-4 xl:grid-cols-2 2xl:grid-rows-3 2xl:grid-cols-3 gap-4 pt-7 ml-16 justify-center"
+					class="grid md:grid-cols-1 md:grid-rows-8 lg:grid-cols-2 lg:grid-rows-4 xl:grid-rows-4 xl:grid-cols-2 2xl:grid-rows-3 2xl:grid-cols-3 gap-4 pt-7 ml-16 justify-center"
 				>
 					<div
 						class="card card-sm rounded-2xl bg-base-100 w-96 max-h-100 shadow-sm"
@@ -58,7 +58,7 @@
 								class="absolute bottom-0 w-90 bg-base-300/90 mb-2 rounded-2xl p-3 text-center"
 							>
 								<h2 class="font-semibold text-lg">
-									ENAM A.-M. KODJOH-KPAKPASSOU
+									KODJOH-KPAKPASSOU, ENAM A.-M.
 								</h2>
 								<p class="text-sm mt-1">
 									Full-Stack Developer and Group Leader
