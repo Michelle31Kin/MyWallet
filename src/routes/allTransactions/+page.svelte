@@ -506,6 +506,7 @@
 		</div>
 	{/if}
 </div>
+</script>
 
 <style>
 	/* Custom scrollbar for table */
@@ -527,8 +528,6 @@
 		background: #a8a8a8;
 	}
 </style>
-
-</script>
 
 <main class="bg-base-100 text-base-content">
     <p class = "font-extrabold justify-center mt-6 border rounded-2xl text-6xl p-64">This is the all transactions page</p>
