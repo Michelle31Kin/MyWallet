@@ -17,38 +17,36 @@
 	} from "$lib/index";
 	import { onMount } from "svelte";
 
-	let a_record: Transaction;
-	let a_wallet: Wallet;
+	let a_record: Transaction = $state({
+		id: 0,
+		wallet_name: "",
+		type: "",
+		category: "",
+		description: "",
+		amount: 0,
+		related_wallet_name: "",
+		recorded_at: "",
+		updated_at: "",
+		is_archived: false,
+	});
+	let a_wallet: Wallet = $state({
+		id: 0,
+		name: "",
+		currency: "",
+		source: "",
+		initial_amount: 0,
+		balance: 0,
+		color: "#ffffff",
+		created_at: "",
+		updated_at: "",
+		is_active: true,
+	});
 	let success_popup: string = $state("");
 	let error_popup: string = $state("");
 	let fetched_wallets: Wallet[] = $state([]);
 	let fetched_transactions: Transaction[] = $state([]);
 
 	onMount(async () => refresh_wrap());
-	a_wallet = {
-		id: 0,
-		name: "Frontend wallet",
-		currency: "USD",
-		source: "MOMO",
-		initial_amount: 1000,
-		balance: 800,
-		color: "#fffff",
-		created_at: "",
-		updated_at: "",
-		is_active: true,
-	};
-	a_record = {
-		id: 0,
-		wallet_name: "Frontend wallet",
-		type: "income",
-		category: "transportation",
-		description: "just to try",
-		amount: 200,
-		related_wallet_name: "",
-		created_at: "",
-		updated_at: "",
-		is_archived: false,
-	};
 	function fade_alert() {
 		setTimeout(() => {
 			success_popup = "";

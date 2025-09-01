@@ -71,14 +71,14 @@ bool WalletManager::update_record(const std::string &to_update)
     //           toUpdate.amount == previous_amount ====> B && _B <=== toUpdate.amount != previous_amount
     //               toUpdate.type == previous_type ====> C && _C <=== toUpdate.type != previous_type
 
-    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type == previous_type)) result_msg = WalletManager::ABC(db, toUpdate);                                          //CASE 1 ABC
-    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type == previous_type)) result_msg = WalletManager::A_BC(db, toUpdate, previous_amount);                        //CASE 2 A_BC
-    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type != previous_type)) result_msg = WalletManager::AB_C(db, toUpdate);                                         //CASE 3 AB_C
-    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type != previous_type)) result_msg = WalletManager::A_B_C(db, toUpdate, previous_amount);                       //CASE 4 A_sult =
-    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type == previous_type)) result_msg = WalletManager::_ABC(db, toUpdate, previous_wallet_name);                    //CASE 5 _ABC
-    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type == previous_type)) result_msg = WalletManager::_A_BC(db, toUpdate, previous_wallet_name, previous_amount);  //CASE 6 _A_BC
-    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type != previous_type)) result_msg = WalletManager::_AB_C(db, toUpdate, previous_wallet_name);                   //CASE 7 _AB_C
-    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type != previous_type)) result_msg = WalletManager::_A_B_C(db, toUpdate, previous_wallet_name, previous_amount); //CASE 8 _A_B_C
+    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type == previous_type)) result = WalletManager::ABC(db, toUpdate);                                          //CASE 1 ABC
+    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type == previous_type)) result = WalletManager::A_BC(db, toUpdate, previous_amount);                        //CASE 2 A_BC
+    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type != previous_type)) result = WalletManager::AB_C(db, toUpdate);                                         //CASE 3 AB_C
+    if ((toUpdate.wallet_name == previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type != previous_type)) result = WalletManager::A_B_C(db, toUpdate, previous_amount);                       //CASE 4 A_sult =
+    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type == previous_type)) result = WalletManager::_ABC(db, toUpdate, previous_wallet_name);                    //CASE 5 _ABC
+    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type == previous_type)) result = WalletManager::_A_BC(db, toUpdate, previous_wallet_name, previous_amount);  //CASE 6 _A_BC
+    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount == previous_amount) && (toUpdate.type != previous_type)) result = WalletManager::_AB_C(db, toUpdate, previous_wallet_name);                   //CASE 7 _AB_C
+    if ((toUpdate.wallet_name != previous_wallet_name) && (toUpdate.amount != previous_amount) && (toUpdate.type != previous_type)) result = WalletManager::_A_B_C(db, toUpdate, previous_wallet_name, previous_amount); //CASE 8 _A_B_C
     cleanup:
         if (get_previous_amount_of_transaction_to_be_updated_Stmt) sqlite3_finalize(get_previous_amount_of_transaction_to_be_updated_Stmt);
         if (get_previous_type_of_transaction_to_be_updated_Stmt) sqlite3_finalize(get_previous_type_of_transaction_to_be_updated_Stmt);
