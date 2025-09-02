@@ -23,7 +23,7 @@
     description: "just to try",
     amount: 200,
     related_wallet_name: "",
-    created_at: "",
+    recorded_at: "",
     updated_at: "",
     is_archived: false
   });
