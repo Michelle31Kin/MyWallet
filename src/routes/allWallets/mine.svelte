@@ -1,4 +1,4 @@
-ain>
+<main>
     <p class = "font-bold justify-center shadow-2xl text-7xl p-64">This is the all wallets page</p>
 
  <div class="card  bg-info-content w-60 shadow-sm">
