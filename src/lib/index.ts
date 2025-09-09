@@ -32,7 +32,7 @@ export type Transaction = {
     description: string;
     amount: number;
     related_wallet_name: string;
-    created_at: string;
+    recorded_at: string;
     updated_at: string;
     is_archived: boolean;
 }
